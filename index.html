@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Table</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+</head>
+<style>
+	table{
+		border: none;
+	}
+	.button{
+		width: 100%;
+		margin-right:20px ;
+	}
+</style>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<form>
+				<br/>
+				<table class="table  data-table" id="data-table">
+					<thead>
+						<tr>
+							<th>Full Name</th>
+							<th>Email Address</th>
+							<th></th>
+						</tr>		
+					</thead>
+					<tbody>
+                        <!-- here code append using jquery dynamically -->
+					</tbody>
+				</table>
+				<div id="demo"></div>
+				<div class="button">
+					<button class="btn btn-success" id="add">+</button>
+				</div>	<br/>
+				<button type="submit" id="submit-btn" class="btn btn-success save-btn">Save</button>
+				<button type="submit" class="btn btn-danger">Show Data</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script>
+        var data=[];
+		//form save
+		$("form").submit(function (e) {
+			e.preventDefault();	
+		    var name = $(this).find('input[name="name[]"]').val();
+			var email = $(this).find('input[name="email[]"]').val();
+            $(".data-table tbody").append("<tr><td>" + name + "</td><td>" + email + "</td><td><button class='btn btn-danger btn-delete ms-2 mt-2'  onclick='deleteRow(this)' >-</button></td></tr>");
+
+			$("#data-table tbody input").remove(); 
+			data.push({name: name, email: email});
+			console.log(data);
+		});
+        //for delete button
+		$("body").on("click", ".btn-delete", function () {
+			$(this).parents("tr").remove();
+		});
+		 // Adds new row
+		 $("#add").on("click", function(){
+			$("#data-table tbody").append('<tr><td><input type="text" name="name[]" id="name"  required/></td>'
+			+'<td><input type="text" name="email[]" id="email" required/></td>'
+			+'<td><input type="button" value="-" onclick="deleteRow(this)" class="btn btn-danger"/></td></tr>')
+		});
+		//delete specific row
+		function deleteRow(row)
+        {
+            $(row).parent().parent().remove();
+        }
+	</script>
+</body>
+
+</html>
+
